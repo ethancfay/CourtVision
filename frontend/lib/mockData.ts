@@ -320,10 +320,10 @@ export const MOCK_PREDICTIONS = [
 export const MOCK_TAKES = [
   {
     id: "t001",
-    personality: "Stephen A. Smith",
-    outlet: "ESPN First Take",
+    personality: "Max Loudmouth",
+    outlet: "Hot Take Hour (sample)",
     outlet_color: "#CC0000",
-    avatar: "SAS",
+    avatar: "ML",
     take_text:
       "LeBron James is NO LONGER the best player on his own team. Anthony Davis has taken over. Full stop.",
     category: "hot",
@@ -332,10 +332,10 @@ export const MOCK_TAKES = [
   },
   {
     id: "t002",
-    personality: "Zach Lowe",
-    outlet: "ESPN",
+    personality: "Dana Film-Room",
+    outlet: "Courtside Pod (sample)",
     outlet_color: "#CC0000",
-    avatar: "ZL",
+    avatar: "DF",
     take_text:
       "The Celtics are the most complete team in the East and it's not particularly close. Their defense is historically elite.",
     category: "stat-backed",
@@ -344,10 +344,10 @@ export const MOCK_TAKES = [
   },
   {
     id: "t003",
-    personality: "Shannon Sharpe",
-    outlet: "Club Shay Shay",
+    personality: "Coach Ray",
+    outlet: "Locker Room Talk (sample)",
     outlet_color: "#8B5CF6",
-    avatar: "SS",
+    avatar: "CR",
     take_text:
       "Nikola Jokic is the greatest offensive player at any position I have ever seen in my lifetime. He sees things no one else sees.",
     category: "popular",
@@ -356,10 +356,10 @@ export const MOCK_TAKES = [
   },
   {
     id: "t004",
-    personality: "Bill Simmons",
-    outlet: "The Ringer",
+    personality: "Sam Stats",
+    outlet: "Box Score Daily (sample)",
     outlet_color: "#E87722",
-    avatar: "BS",
+    avatar: "SS",
     take_text:
       "The Warriors dynasty is officially over. This roster has no path back to the Finals. Steph deserves better.",
     category: "hot",
@@ -368,22 +368,22 @@ export const MOCK_TAKES = [
   },
   {
     id: "t005",
-    personality: "Malika Andrews",
-    outlet: "ESPN",
+    personality: "Jordan Rumor",
+    outlet: "Trade Machine Live (sample)",
     outlet_color: "#CC0000",
-    avatar: "MA",
+    avatar: "JR",
     take_text:
-      "Sources tell me the Lakers front office is fully committed to re-signing LeBron regardless of the cap situation.",
+      "The Lakers should re-sign LeBron no matter what it does to their cap sheet.",
     category: "prediction",
     agrees: 2987,
     disagrees: 761,
   },
   {
     id: "t006",
-    personality: "Skip Bayless",
-    outlet: "Undisputed",
+    personality: "Pat Contrarian",
+    outlet: "Hot Take Hour (sample)",
     outlet_color: "#1D4ED8",
-    avatar: "SB",
+    avatar: "PC",
     take_text:
       "Jayson Tatum is NOT a superstar. He disappears in big moments. Show me a ring.",
     category: "hot",
@@ -392,10 +392,10 @@ export const MOCK_TAKES = [
   },
   {
     id: "t007",
-    personality: "Tim Bontemps",
-    outlet: "ESPN",
+    personality: "Alex Analytics",
+    outlet: "Courtside Pod (sample)",
     outlet_color: "#CC0000",
-    avatar: "TB",
+    avatar: "AA",
     take_text:
       "Victor Wembanyama is already the most unique player to ever enter the NBA. His combination of size and skill has no historical precedent.",
     category: "popular",
@@ -404,10 +404,10 @@ export const MOCK_TAKES = [
   },
   {
     id: "t008",
-    personality: "Kendrick Perkins",
-    outlet: "ESPN First Take",
+    personality: "Big Vic",
+    outlet: "Locker Room Talk (sample)",
     outlet_color: "#CC0000",
-    avatar: "KP",
+    avatar: "BV",
     take_text:
       "The Miami Heat culture is the gold standard of the NBA. No team does more with less. Every year they compete. Every. Single. Year.",
     category: "popular",
