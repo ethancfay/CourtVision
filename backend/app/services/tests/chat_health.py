@@ -21,9 +21,9 @@ async def check_chat_health() -> dict:
     start = time.perf_counter()
     try:
         response = await client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=settings.GROQ_MODEL,
             messages=[{"role": "user", "content": HEALTH_PROMPT}],
-            max_completion_tokens=30,
+            max_completion_tokens=300,
             temperature=0.0,
         )
         elapsed = round((time.perf_counter() - start) * 1000)
