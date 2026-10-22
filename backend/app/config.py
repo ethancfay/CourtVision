@@ -4,11 +4,11 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # Groq
-    GROQ_API_KEY: str
+    GROQ_API_KEY: str = ""
 
     # Supabase
-    SUPABASE_URL: str
-    SUPABASE_SERVICE_KEY: str
+    SUPABASE_URL: str = ""
+    SUPABASE_SERVICE_KEY: str = ""
     SUPABASE_ANON_KEY: str = ""
 
     # Redis
@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     UPSTASH_REDIS_REST_TOKEN: str = ""
 
     # BallDontLie
-    BALLDONTLIE_API_KEY: str
+    BALLDONTLIE_API_KEY: str = ""
 
     # ML
     MODEL_PATH: str = "app/ml/artifacts/courtiq_model.pkl"
@@ -32,6 +32,10 @@ class Settings(BaseSettings):
 
     # NBA API
     NBA_API_DELAY: float = 0.7
+
+    # Admin routes (ingest/retrain/bootstrap) require this token in the X-Admin-Token header.
+    # Leave empty to disable admin routes entirely.
+    ADMIN_TOKEN: str = ""
 
     # App
     ENVIRONMENT: str = "development"
