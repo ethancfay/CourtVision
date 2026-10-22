@@ -5,6 +5,9 @@ import json
 import logging
 from datetime import date
 from functools import partial
+import time
+
+from dateutil.parser import parse as parse_dt
 
 from balldontlie import BalldontlieAPI
 from balldontlie.exceptions import AuthenticationError, BallDontLieException, RateLimitError
@@ -192,3 +195,41 @@ def _map_status(s: str) -> str:
     if any(x in s_lower for x in ["qtr", "half", "ot", "overtime"]):
         return "live"
     return "upcoming"
+
+# ─── HISTORY BOOTSTRAP ───────────────────────────────────────────────────────
+# Loads past games from balldontlie into the Supabase games table so the ML
+# feature extractor has recent results for every team. Runs as a background job
+# from the admin route. The free balldontlie tier allows 5 requests/minute, so
+# requests are spaced out.
+def bootstrap_history(seasons: list[int], delay_seconds: float = 13.0) -> int:
+    if not supabase_client:
+        logger.error("bootstrap_history: Supabase is not configured")
+        return 0
+    total = 0
+    for season in seasons:
+        cursor = None
+        while True:
+            try:
+                resp = _bdl.nba.games.list(seasons=[season], per_page=100, cursor=cursor)
+            except RateLimitError:
+                logger.warning("bootstrap_history: rate limited, waiting 60s")
+                time.sleep(60)
+                continue
+            except Exception as e:
+                logger.error(f"bootstrap_history: season {season} failed: {e}")
+                break
+            rows = [_transform_game(g) for g in (resp.data or [])]
+            if rows:
+                try:
+                    supabase_client.table("games").upsert(rows).execute()
+                    total += len(rows)
+                    logger.info(f"bootstrap_history: season {season}, {total} games saved so far")
+                except Exception as e:
+                    logger.error(f"bootstrap_history: upsert failed: {e}")
+            meta = getattr(resp, "meta", None)
+            cursor = getattr(meta, "next_cursor", None) if meta else None
+            if not cursor:
+                break
+            time.sleep(delay_seconds)
+    logger.info(f"bootstrap_history: done, {total} games saved")
+    return total
