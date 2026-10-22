@@ -1,4 +1,17 @@
-# 🏀 CourtIQ — Ball Knowledge AI
+# 🏀 CourtVision
+
+🏆 **Best AI/ML Hack — HACK(H)ER 413 (Feb 2026)**
+
+AI-powered NBA platform for new fans: game predictions, AI scouting reports, and a fact-checker for sports-media hot takes. Built in 24 hours.
+
+**Devpost:** https://devpost.com/software/courtvision-ydejwi
+
+## Team
+- **Arjya Misra** ([@codeArjya](https://github.com/codeArjya))
+- **Ethan Au-Yeung** ([@ethancfay](https://github.com/ethancfay)) – XGBoost game-prediction model, FastAPI backend, and Gemini scouting/fact-check features
+- **Zakariya Gdihi** – presentation and demo
+- **Santiago Rojas Vasquez**
+
 NBA live stats dashboard + AI predictions + media takes feed.
 **Stack:** Next.js 14 · FastAPI · Gemini 1.5 Flash · Supabase · Upstash Redis · XGBoost · balldontlie
 ---
