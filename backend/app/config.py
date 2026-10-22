@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     # Leave empty to disable admin routes entirely.
     ADMIN_TOKEN: str = ""
 
+    # Load past games from balldontlie on startup when the games table is nearly empty
+    BOOTSTRAP_ON_STARTUP: bool = True
+
     # App
     ENVIRONMENT: str = "development"
     LOG_LEVEL: str = "INFO"
