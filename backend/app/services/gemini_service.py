@@ -15,8 +15,10 @@ logger = logging.getLogger(__name__)
 # ─── CLIENT ──────────────────────────────────────────────────────────────────
 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 
-# llama-3.3-70b-versatile: 14,400 req/day free, fast, strong instruction following
-MODEL = "llama-3.3-70b-versatile"
+# Model is configurable with GROQ_MODEL (default openai/gpt-oss-120b).
+MODEL = settings.GROQ_MODEL
+# gpt-oss models reason before answering; keep that short so answers fit the token limit.
+EXTRA = {"reasoning_effort": "low"} if MODEL.startswith("openai/gpt-oss") else {}
 
 
 # ─── SHARED ASYNC CALLER (non-streaming JSON responses) ──────────────────────
@@ -30,8 +32,9 @@ async def _call_groq(system: str, user: str) -> dict:
                 {"role": "user", "content": user},
             ],
             temperature=0.7,
-            max_completion_tokens=1024,
+            max_completion_tokens=2048,
             response_format={"type": "json_object"},  # guarantees valid JSON back
+            extra_body=EXTRA or None,
         )
         text = response.choices[0].message.content or ""
         return json.loads(text)
@@ -130,8 +133,9 @@ async def generate_chat_stream(messages: list):
             model=MODEL,
             messages=formatted,
             temperature=0.7,
-            max_completion_tokens=1024,
+            max_completion_tokens=2048,
             stream=True,
+            extra_body=EXTRA or None,
         )
         async for chunk in stream:
             text = chunk.choices[0].delta.content or ""
