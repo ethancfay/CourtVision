@@ -81,14 +81,14 @@ MOCK_PREDICTIONS = [
 ]
 
 MOCK_TAKES = [
-    {"id": "t001", "personality": "Stephen A. Smith", "outlet": "ESPN First Take", "outlet_color": "#CC0000", "avatar": "SAS", "take_text": "LeBron James is NO LONGER the best player on his own team. Anthony Davis has taken over. Full stop.", "category": "hot", "agrees": 1243, "disagrees": 2891},
-    {"id": "t002", "personality": "Zach Lowe", "outlet": "ESPN", "outlet_color": "#CC0000", "avatar": "ZL", "take_text": "The Celtics are the most complete team in the East and it's not particularly close. Their defense is historically elite.", "category": "stat-backed", "agrees": 4102, "disagrees": 891},
-    {"id": "t003", "personality": "Shannon Sharpe", "outlet": "Club Shay Shay", "outlet_color": "#8B5CF6", "avatar": "SS", "take_text": "Nikola Jokic is the greatest offensive player at any position I have ever seen in my lifetime. He sees things no one else sees.", "category": "popular", "agrees": 6741, "disagrees": 1204},
-    {"id": "t004", "personality": "Bill Simmons", "outlet": "The Ringer", "outlet_color": "#E87722", "avatar": "BS", "take_text": "The Warriors dynasty is officially over. This roster has no path back to the Finals. Steph deserves better.", "category": "hot", "agrees": 3218, "disagrees": 2544},
-    {"id": "t005", "personality": "Malika Andrews", "outlet": "ESPN", "outlet_color": "#CC0000", "avatar": "MA", "take_text": "Sources tell me the Lakers front office is fully committed to re-signing LeBron regardless of the cap situation.", "category": "prediction", "agrees": 2987, "disagrees": 761},
-    {"id": "t006", "personality": "Skip Bayless", "outlet": "Undisputed", "outlet_color": "#1D4ED8", "avatar": "SB", "take_text": "Jayson Tatum is NOT a superstar. He disappears in big moments. Show me a ring.", "category": "hot", "agrees": 891, "disagrees": 5432},
-    {"id": "t007", "personality": "Tim Bontemps", "outlet": "ESPN", "outlet_color": "#CC0000", "avatar": "TB", "take_text": "Victor Wembanyama is already the most unique player to ever enter the NBA. His combination of size and skill has no historical precedent.", "category": "popular", "agrees": 7823, "disagrees": 445},
-    {"id": "t008", "personality": "Kendrick Perkins", "outlet": "ESPN First Take", "outlet_color": "#CC0000", "avatar": "KP", "take_text": "The Miami Heat culture is the gold standard of the NBA. No team does more with less. Every year they compete. Every. Single. Year.", "category": "popular", "agrees": 3341, "disagrees": 1122},
+    {"id": "t001", "personality": "Max Loudmouth", "outlet": "Hot Take Hour (sample)", "outlet_color": "#CC0000", "avatar": "ML", "take_text": "LeBron James is NO LONGER the best player on his own team. Anthony Davis has taken over. Full stop.", "category": "hot", "agrees": 1243, "disagrees": 2891},
+    {"id": "t002", "personality": "Dana Film-Room", "outlet": "Courtside Pod (sample)", "outlet_color": "#CC0000", "avatar": "DF", "take_text": "The Celtics are the most complete team in the East and it's not particularly close. Their defense is historically elite.", "category": "stat-backed", "agrees": 4102, "disagrees": 891},
+    {"id": "t003", "personality": "Coach Ray", "outlet": "Locker Room Talk (sample)", "outlet_color": "#8B5CF6", "avatar": "CR", "take_text": "Nikola Jokic is the greatest offensive player at any position I have ever seen in my lifetime. He sees things no one else sees.", "category": "popular", "agrees": 6741, "disagrees": 1204},
+    {"id": "t004", "personality": "Sam Stats", "outlet": "Box Score Daily (sample)", "outlet_color": "#E87722", "avatar": "SS", "take_text": "The Warriors dynasty is officially over. This roster has no path back to the Finals. Steph deserves better.", "category": "hot", "agrees": 3218, "disagrees": 2544},
+    {"id": "t005", "personality": "Jordan Rumor", "outlet": "Trade Machine Live (sample)", "outlet_color": "#CC0000", "avatar": "JR", "take_text": "The Lakers should re-sign LeBron no matter what it does to their cap sheet.", "category": "prediction", "agrees": 2987, "disagrees": 761},
+    {"id": "t006", "personality": "Pat Contrarian", "outlet": "Hot Take Hour (sample)", "outlet_color": "#1D4ED8", "avatar": "PC", "take_text": "Jayson Tatum is NOT a superstar. He disappears in big moments. Show me a ring.", "category": "hot", "agrees": 891, "disagrees": 5432},
+    {"id": "t007", "personality": "Alex Analytics", "outlet": "Courtside Pod (sample)", "outlet_color": "#CC0000", "avatar": "AA", "take_text": "Victor Wembanyama is already the most unique player to ever enter the NBA. His combination of size and skill has no historical precedent.", "category": "popular", "agrees": 7823, "disagrees": 445},
+    {"id": "t008", "personality": "Big Vic", "outlet": "Locker Room Talk (sample)", "outlet_color": "#CC0000", "avatar": "BV", "take_text": "The Miami Heat culture is the gold standard of the NBA. No team does more with less. Every year they compete. Every. Single. Year.", "category": "popular", "agrees": 3341, "disagrees": 1122},
 ]
 
 FALLBACK_PLAYER_CARD = {
@@ -167,7 +167,7 @@ def seed():
     except Exception as e:
         print(f"  ✗ player_card: {e}")
 
-    print("🌱 Seeding take verdicts (Stephen A. pre-generated)...")
+    print("🌱 Seeding take verdicts (pre-generated)...")
     try:
         client.table("take_verdicts").upsert({**SEED_TAKE_VERDICT, "created_at": now}).execute()
         print("  ✓ t001")
