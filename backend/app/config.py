@@ -5,6 +5,8 @@ from functools import lru_cache
 class Settings(BaseSettings):
     # Groq
     GROQ_API_KEY: str = ""
+    # Groq model ID. Check console.groq.com/settings/limits for models your account can use.
+    GROQ_MODEL: str = "openai/gpt-oss-120b"
 
     # Supabase
     SUPABASE_URL: str = ""
