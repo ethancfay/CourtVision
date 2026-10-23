@@ -16,6 +16,7 @@ interface Game {
   quarter: number | null;
   clock: string | null;
   tipoff_time: string | null;
+  is_demo?: boolean;
 }
 
 interface GameSidebarProps {
@@ -24,6 +25,7 @@ interface GameSidebarProps {
   onSelectGame: (game: Game) => void;
   activeOverlay: string;
   onOverlayChange: (v: string) => void;
+  hasPlayerData?: boolean;
 }
 
 type Filter = "all" | "live" | "final";
@@ -41,6 +43,7 @@ export default function GameSidebar({
   onSelectGame,
   activeOverlay,
   onOverlayChange,
+  hasPlayerData = true,
 }: GameSidebarProps) {
   const [filter, setFilter] = useState<Filter>("all");
 
@@ -113,8 +116,12 @@ export default function GameSidebar({
             <button
               key={id}
               onClick={() => onOverlayChange(id)}
+              disabled={!hasPlayerData && id !== "none"}
+              title={!hasPlayerData && id !== "none" ? "Needs box score data" : undefined}
               className={`text-left px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all ${
-                activeOverlay === id
+                !hasPlayerData && id !== "none"
+                  ? "text-dim opacity-40 cursor-not-allowed"
+                  : activeOverlay === id
                   ? "bg-orange text-white"
                   : "text-secondary hover:bg-surfaceHigh hover:text-primary"
               }`}
@@ -123,6 +130,11 @@ export default function GameSidebar({
             </button>
           ))}
         </div>
+        {!hasPlayerData && (
+          <p className="text-dim text-[10px] mt-2 leading-snug">
+            Needs box score data. Pick the sample game to try overlays.
+          </p>
+        )}
       </div>
     </aside>
   );
@@ -154,7 +166,12 @@ function SidebarGameItem({
     >
       {/* Status row */}
       <div className="flex items-center gap-1.5 mb-2">
-        {game.status === "live" && (
+        {game.is_demo && (
+          <span className="text-orange text-[9px] font-bold tracking-wider uppercase">
+            Sample game
+          </span>
+        )}
+        {!game.is_demo && game.status === "live" && (
           <>
             <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-live" />
             <span className="text-success text-[9px] font-bold tracking-wider uppercase">
@@ -162,7 +179,7 @@ function SidebarGameItem({
             </span>
           </>
         )}
-        {game.status === "final" && (
+        {!game.is_demo && game.status === "final" && (
           <span className="text-dim text-[9px] font-semibold tracking-wider uppercase">
             Final
           </span>
