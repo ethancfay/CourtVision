@@ -3,9 +3,11 @@
 import asyncio
 import json
 import logging
-from datetime import date
+from datetime import date, datetime
 from functools import partial
 import time
+
+import pytz
 
 from dateutil.parser import parse as parse_dt
 
@@ -17,6 +19,14 @@ from app.data.seed_mock import MOCK_GAMES
 from app.services.supabase_service import redis_get, redis_set, supabase_client
 
 logger = logging.getLogger(__name__)
+
+# NBA schedules run on US Eastern time. The server clock is UTC, so after 8 PM ET
+# date.today() would already be tomorrow and show the wrong slate of games.
+ET = pytz.timezone("America/New_York")
+
+
+def nba_today() -> str:
+    return datetime.now(ET).date().isoformat()
 
 _bdl = BalldontlieAPI(api_key=settings.BALLDONTLIE_API_KEY)
 
@@ -79,7 +89,7 @@ def _fetch_games_sync(today: str) -> list:
 
 
 async def get_today_games() -> list:
-    today = date.today().isoformat()
+    today = nba_today()
     cache_key = f"live:games:{today}"
 
     # 1. Redis cache
@@ -162,11 +172,14 @@ def _transform_game(g) -> dict:
         home_score = None
         away_score = None
 
-    dt_str = getattr(g, "datetime", None)
+    # balldontlie puts the tip-off time in `datetime`, or in `status` for games
+    # that haven't started (e.g. "2026-10-22T23:00:00Z"). Show it as "7:00 PM ET".
+    status_raw = g.status or ""
+    dt_str = getattr(g, "datetime", None) or (status_raw if status_raw[:2] == "20" else None)
     tipoff_time = None
     if dt_str:
         try:
-            tipoff_time = parse_dt(dt_str).isoformat()
+            tipoff_time = parse_dt(dt_str).astimezone(ET).strftime("%-I:%M %p ET")
         except Exception:
             tipoff_time = None
 
