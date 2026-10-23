@@ -38,9 +38,13 @@ export default function DashboardPage() {
     refetchInterval: 30000,
   });
 
-  const displayGames = games || MOCK_GAMES;
+  // Sample game with sample box score, so every feature can be tried even when
+  // real games have no player data yet (box scores need a paid data plan).
+  const DEMO_GAME = { ...MOCK_GAMES[0], status: "final", is_demo: true };
+  const realGames = (games || []).filter((g: any) => !g.game_id?.startsWith("game_"));
+  const displayGames = [DEMO_GAME, ...realGames];
 
-  // Default to first game if nothing selected
+  // Default to the sample game if nothing selected
   const currentGame = selectedGame ?? (displayGames[0] || null);
 
   const handleSelectGame = useCallback((game: any) => {
@@ -82,7 +86,11 @@ export default function DashboardPage() {
           selectedGame={currentGame}
           onSelectGame={handleSelectGame}
           activeOverlay={activeOverlay}
-          onOverlayChange={setActiveOverlay}
+          onOverlayChange={(v: string) => {
+            setActiveOverlay(v);
+            if (v !== "none") setShowFullBoxScore(true);
+          }}
+          hasPlayerData={allPlayers.length > 0}
         />
       )}
 
@@ -102,6 +110,13 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="p-4 lg:p-6 max-w-4xl">
+            {currentGame.is_demo && (
+              <div className="mb-3 px-3 py-2 rounded-lg border border-orange/40 bg-orange/10 text-orange text-xs font-semibold">
+                Sample data: this is a demo game with sample stats so you can try every feature.
+                Real games are listed below it.
+              </div>
+            )}
+
             {/* Hero game */}
             <HeroGame
               game={currentGame}
