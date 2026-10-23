@@ -54,16 +54,36 @@ export default function DashboardPage() {
     setSelectedPlayer(null);
   }, []);
 
+  // Real games: live box score from the backend (ESPN public data).
+  const isRealGame = !!currentGame && !currentGame.is_demo;
+  const { data: box } = useQuery({
+    queryKey: ["boxscore", currentGame?.game_id],
+    queryFn: async () => {
+      try {
+        const res = await api.get("/api/boxscore", {
+          params: { home: currentGame.home_team_abbr, away: currentGame.away_team_abbr },
+        });
+        return res.data;
+      } catch {
+        return null;
+      }
+    },
+    enabled: isRealGame && currentGame?.status !== "upcoming",
+    refetchInterval: currentGame?.status === "live" ? 30000 : false,
+  });
+
   // Player data for selected game
-  const allPlayers = currentGame
-    ? MOCK_PLAYER_STATS.filter((p) => p.game_id === currentGame.game_id)
-    : [];
-  const homePlayers = allPlayers.filter(
-    (p) => p.team_id === currentGame?.home_team_id,
-  );
-  const awayPlayers = allPlayers.filter(
-    (p) => p.team_id === currentGame?.away_team_id,
-  );
+  const allPlayers: any[] = !currentGame
+    ? []
+    : currentGame.is_demo
+      ? MOCK_PLAYER_STATS.filter((p) => p.game_id === currentGame.game_id)
+      : box?.players ?? [];
+  const homePlayers = currentGame?.is_demo
+    ? allPlayers.filter((p) => p.team_id === currentGame?.home_team_id)
+    : allPlayers.filter((p) => p.side === "home");
+  const awayPlayers = currentGame?.is_demo
+    ? allPlayers.filter((p) => p.team_id === currentGame?.away_team_id)
+    : allPlayers.filter((p) => p.side === "away");
 
   const activeTeamAbbr =
     activeTeam === "home"
@@ -90,7 +110,7 @@ export default function DashboardPage() {
             setActiveOverlay(v);
             if (v !== "none") setShowFullBoxScore(true);
           }}
-          hasPlayerData={allPlayers.length > 0}
+          hasPlayerData={!!currentGame?.is_demo}
         />
       )}
 
@@ -161,7 +181,9 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div className="text-secondary text-sm text-center py-10 mb-5 border border-dashed border-border rounded-xl">
-                Box score data not yet available for this game.
+                {currentGame.status === "upcoming"
+                  ? "Box score appears once the game tips off."
+                  : "Box score data not yet available for this game."}
               </div>
             )}
 
