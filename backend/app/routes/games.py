@@ -3,7 +3,7 @@ import logging
 
 from fastapi import APIRouter
 
-from app.services import nba_service
+from app.services import boxscore_service, nba_service
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -24,3 +24,9 @@ async def get_games():
         logger.error(f"Failed to fetch games: {e}")
         from app.data.seed_mock import MOCK_GAMES
         return MOCK_GAMES
+
+
+@router.get("/boxscore")
+async def get_boxscore(home: str, away: str):
+    """Player box score for one of today's games, by team abbreviations."""
+    return await boxscore_service.get_boxscore(home, away)
