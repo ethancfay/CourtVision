@@ -117,7 +117,7 @@ export default function GameSidebar({
               key={id}
               onClick={() => onOverlayChange(id)}
               disabled={!hasPlayerData && id !== "none"}
-              title={!hasPlayerData && id !== "none" ? "Needs box score data" : undefined}
+              title={!hasPlayerData && id !== "none" ? "Needs season stats" : undefined}
               className={`text-left px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all ${
                 !hasPlayerData && id !== "none"
                   ? "text-dim opacity-40 cursor-not-allowed"
@@ -132,7 +132,7 @@ export default function GameSidebar({
         </div>
         {!hasPlayerData && (
           <p className="text-dim text-[10px] mt-2 leading-snug">
-            Needs box score data. Pick the sample game to try overlays.
+            Overlays use season stats, shown on the sample game only.
           </p>
         )}
       </div>
