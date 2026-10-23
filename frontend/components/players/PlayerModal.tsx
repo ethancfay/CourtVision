@@ -46,7 +46,7 @@ export default function PlayerModal({ player, game, onClose }: PlayerModalProps)
           player_name: player.name,
           season_avg: { pts: player.pts, reb: player.reb, ast: player.ast },
           last5: player.last5_pts,
-          opponent: game.away_team_name,
+          opponent: (player as any).side === "away" ? game.home_team_name : game.away_team_name,
           game_id: game.game_id,
         });
         if (!cancelled) setCard(res.data);
